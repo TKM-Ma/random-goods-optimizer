@@ -1,4 +1,4 @@
-import csv
+import json
 import pandas as pd
 
 from models.item import Item
@@ -21,3 +21,22 @@ def load_group(excel, sheet):
         items.append(Item(row["name"], row["score"]))
     
     return Group(sheet, items)
+
+def load_template(path):
+    with open(path, encoding="utf-8") as f:
+        data = json.load(f)
+    
+    groups = []
+    for group_data in data["groups"]:
+        items = []
+        
+        for name in group_data["items"]:
+            items.append(Item(name, 0))
+        
+        groups.append(
+            Group(
+                group_data["name"],
+                items
+            )
+        )
+    return groups

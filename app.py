@@ -1,6 +1,6 @@
 import streamlit as st
 import pandas as pd
-from dataio.loader import load_all_groups
+from dataio.loader import load_all_groups, load_template
 from analysis.statistics import Statistics
 from analysis.optimizer import Optimizer
 
@@ -17,17 +17,34 @@ st.set_page_config(
 
 st.title("ランダム購入支援ツール")
 
-upload_file = st.file_uploader(
-    "Exelファイルを選択してください",
-    type=["xlsx"]
-)
+groups = load_template("templates/real_capsule_toy.json")
+budget, threshold = show_sidebar()
+for group in groups:
+    st.subheader(group.name)
 
-if upload_file is not None:
-    groups = load_all_groups(upload_file)
-
-    budget, threshold = show_sidebar()
-    
-    show_statistics(groups, threshold)
-
-    if st.button("おすすめを計算"):
+    for item in group.items:
+        item.score = st.number_input(
+            item.name,
+            min_value=1,
+            max_value=10,
+            value=5,
+            key=F"{group.name}_{item.name}"
+        )
+if st.button("おすすめを計算"):
         show_recommendation(groups, budget, threshold)
+
+def excel():
+    upload_file = st.file_uploader(
+        "Exelファイルを選択してください",
+        type=["xlsx"]
+    )
+
+    if upload_file is not None:
+        groups = load_all_groups(upload_file)
+
+        budget, threshold = show_sidebar()
+        
+        show_statistics(groups, threshold)
+
+        if st.button("おすすめを計算"):
+            show_recommendation(groups, budget, threshold)
