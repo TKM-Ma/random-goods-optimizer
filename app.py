@@ -23,12 +23,10 @@ for group in groups:
     st.subheader(group.name)
 
     for item in group.items:
-        item.score = st.number_input(
+        item.score = st.select_slider(
             item.name,
-            min_value=1,
-            max_value=10,
+            options=[1,2,3,4,5,6,7,8,9,10],
             value=5,
-            key=F"{group.name}_{item.name}"
         )
 if st.button("おすすめを計算"):
         show_recommendation(groups, budget, threshold)
