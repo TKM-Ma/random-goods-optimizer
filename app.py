@@ -23,10 +23,9 @@ for group in groups:
     st.subheader(group.name)
 
     for item in group.items:
-        item.score = st.select_slider(
+        item.score = st.selectbox(
             item.name,
-            options=[1,2,3,4,5,6,7,8,9,10],
-            value=5,
+            range(1,10)
         )
 if st.button("おすすめを計算"):
         show_recommendation(groups, budget, threshold)
