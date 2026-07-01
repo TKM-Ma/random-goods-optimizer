@@ -31,7 +31,7 @@ def load_template(path):
         items = []
         
         for name in group_data["items"]:
-            items.append(Item(name, 0))
+            items.append(Item(name, 5))
         
         groups.append(
             Group(

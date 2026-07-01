@@ -20,38 +20,14 @@ st.title("ランダム購入支援ツール")
 groups = load_template("templates/real_capsule_toy.json")
 budget, threshold = show_sidebar()
 for group in groups:
-    st.subheader(group.name)
-
-    with st.expander(group.name):
-        df = pd.DataFrame({
-            "キャラ名":[
-                item.name for item in group.items
-            ],
-            "評価":[
-                item.score for item in group.items
-            ]
-        })
-        
-        edited = st.data_editor(
-            df,
-            disabled=["キャラ名"],
-            column_config={
-                "キャラ名": st.column_config.TextColumn(
-                    "キャラ名",
-                    width="medium",
-                ),
-                "評価": st.column_config.SelectboxColumn(
-                    "評価",
-                    options=list(range(1, 11)),
-                    width="small",
-                    required=True
-                )
-            },
-            hide_index=True
-        )
-        
-    for item, (_, row) in zip(group.items, edited.iterrows()):
-        item.score = row["評価"]
+    with st.container(height=450):
+        for item in group.items:
+            item.score = st.selectbox(
+                label=item.name,
+                options=list(range(1, 11)),
+                index=item.score - 1,
+                key=f"{group.name}_{item.name}"
+            )
 
 if st.button("おすすめを計算"):
         show_recommendation(groups, budget, threshold)
