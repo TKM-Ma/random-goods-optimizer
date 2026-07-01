@@ -20,7 +20,7 @@ st.title("ランダム購入支援ツール")
 groups = load_template("templates/real_capsule_toy.json")
 budget, threshold = show_sidebar()
 for group in groups:
-    st.subheader(group.name)
+    # st.subheader(group.name)
     # with st.expander(group.name):
     with st.container(height=450):
         for item in group.items:
