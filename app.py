@@ -20,14 +20,16 @@ st.title("ランダム購入支援ツール")
 groups = load_template("templates/real_capsule_toy.json")
 budget, threshold = show_sidebar()
 for group in groups:
-    with st.container(height=450):
-        for item in group.items:
-            item.score = st.selectbox(
-                label=item.name,
-                options=list(range(1, 11)),
-                index=item.score - 1,
-                key=f"{group.name}_{item.name}"
-            )
+    st.subheader(group.name)
+    with st.expander(group.name):
+        with st.container():
+            for item in group.items:
+                item.score = st.selectbox(
+                    label=item.name,
+                    options=list(range(1, 11)),
+                    index=item.score - 1,
+                    key=f"{group.name}_{item.name}"
+                )
 
 if st.button("おすすめを計算"):
         show_recommendation(groups, budget, threshold)
