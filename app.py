@@ -22,18 +22,13 @@ budget, threshold = show_sidebar()
 for group in groups:
     with st.expander(group.name):
         with st.container(height=450):
-            col1, col2 = st.columns([4, 1])
             for item in group.items:
-                with col1:
-                    st.write(item.name)
-                with col2:
-                    item.score = st.selectbox(
-                        "",
-                        list(range(1, 11)),
-                        index=item.score - 1,
-                        key=f"{group.name}_{item.name}",
-                        label_visibility="collapsed"
-                    )
+                item.score = st.selectbox(
+                    label=item.name,
+                    options=list(range(1, 11)),
+                    index=item.score - 1,
+                    key=f"{group.name}_{item.name}"
+                )
 
 if st.button("おすすめを計算"):
         show_recommendation(groups, budget, threshold)
