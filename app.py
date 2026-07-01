@@ -26,6 +26,7 @@ for group in groups:
         item.score = st.selectbox(
             item.name,
             range(1,11)
+            
         )
 if st.button("おすすめを計算"):
         show_recommendation(groups, budget, threshold)
