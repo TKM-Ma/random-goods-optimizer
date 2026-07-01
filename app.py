@@ -22,7 +22,7 @@ budget, threshold = show_sidebar()
 for group in groups:
     st.subheader(group.name)
     with st.expander(group.name):
-        with st.container():
+        with st.container(height=450):
             for item in group.items:
                 item.score = st.selectbox(
                     label=item.name,
