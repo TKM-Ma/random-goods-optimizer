@@ -36,9 +36,14 @@ for group in groups:
             df,
             disabled=["キャラ名"],
             column_config={
+                "キャラ名": st.column_config.TextColumn(
+                    "キャラ名",
+                    width="large",
+                ),
                 "評価": st.column_config.SelectboxColumn(
                     "評価",
                     options=list(range(1, 11)),
+                    width="small",
                     required=True
                 )
             },
