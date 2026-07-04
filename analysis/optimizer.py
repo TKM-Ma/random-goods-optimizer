@@ -2,6 +2,9 @@ from models import group
 from analysis.statistics import Statistics
 
 class Optimizer:
+    LAMBDA = 0.1
+    ALPHA = 0.1
+    
     @staticmethod
     def recommend(groups, budget):
         scores = {}
@@ -19,12 +22,11 @@ class Optimizer:
     
     @staticmethod
     def cal_score(group, recommend=None):
-        lambda_ = 0.1
-        mean = Statistics.mean(group)
-        var = Statistics.var(group)
-        score = mean - lambda_ * var + 5 * Statistics.hit_rate(group, 8) + 3 * Statistics.hit_rate(group, 10)
+        scores = Statistics.scores(group)
+        mean = Statistics.mean(scores)
+        var = Statistics.var(scores)
+        score = mean - Optimizer.LAMBDA * var + 5 * Statistics.hit_rate(scores, 8) + 3 * Statistics.hit_rate(scores, 10)
 
         if recommend != None:
-            alpha = 0.1
-            score /= 1 + alpha * recommend[group]
+            score /= 1 + Optimizer.ALPHA * recommend[group]
         return score

@@ -1,11 +1,14 @@
 import streamlit as st
 import pandas as pd
-from dataio.loader import load_all_groups, load_template
+
+from dataio.loader import load_all_groups, load_template, apply_score
+from dataio.saver import groups_to_json
+
 from analysis.statistics import Statistics
-from analysis.optimizer import Optimizer
 
 from ui import (
     show_sidebar,
+    show_input,
     show_statistics,
     show_recommendation
 )
@@ -17,21 +20,35 @@ st.set_page_config(
 
 st.title("ランダム購入支援ツール")
 
-groups = load_template("templates/real_capsule_toy.json")
+if "groups" not in st.session_state:
+    st.session_state.groups = load_template("templates/real_capsule_toy.json")
+groups = st.session_state.groups
+
 budget, threshold = show_sidebar()
-for group in groups:
-    with st.expander(group.name):
-        with st.container(height=450):
-            for item in group.items:
-                item.score = st.selectbox(
-                    label=item.name,
-                    options=list(range(1, 11)),
-                    index=item.score - 1,
-                    key=f"{group.name}_{item.name}"
-                )
+
+uploaded = st.file_uploader(
+    "評価ファイル",
+    type="json",
+)
+if uploaded is not None:
+    apply_score(uploaded)
+
+show_input()
+
+json_data = groups_to_json(groups)
+
+st.download_button(
+    "スコアを保存",
+    data=json_data,
+    file_name="score.json",
+    mime="application/json"
+)
 
 if st.button("おすすめを計算"):
-        show_recommendation(groups, budget, threshold)
+    if Statistics.find_unrated_items(groups):
+        st.error("未評価のキャラがあります")
+        st.stop()
+    show_recommendation(groups, budget, threshold)
 
 def excel():
     upload_file = st.file_uploader(

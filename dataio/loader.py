@@ -1,6 +1,8 @@
 import json
 import pandas as pd
 
+import streamlit as st
+
 from models.item import Item
 from models.group import Group
 
@@ -31,7 +33,7 @@ def load_template(path):
         items = []
         
         for name in group_data["items"]:
-            items.append(Item(name, 5))
+            items.append(Item(name, 0))
         
         groups.append(
             Group(
@@ -40,3 +42,17 @@ def load_template(path):
             )
         )
     return groups
+
+def apply_score(upload_file):
+    groups = st.session_state.groups
+    score_data = json.load(upload_file)
+    
+    for group in groups:
+        if group.name not in score_data:
+            continue
+        
+        for item in group.items:
+            if item.name in score_data[group.name]:
+                item.score = score_data[group.name][item.name]
+
+                st.session_state[f"{group.name}_{item.name}"] = item.score

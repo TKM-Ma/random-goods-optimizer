@@ -21,13 +21,34 @@ def show_sidebar():
     
     return budget, threshold
 
+def show_input():
+    groups = st.session_state.groups
+    for group in groups:
+        count = sum(item.score == 0 for item in group.items)
+        title = group.name
+        if count > 0:
+            title += f"(未入力){count}人"
+        with st.expander(title):
+            with st.container(height=450):
+                for item in group.items:
+                    key=f"{group.name}_{item.name}"
+                    if key not in st.session_state:
+                        st.session_state[key] = 0
+                    
+                    item.score = st.selectbox(
+                        label=item.name,
+                        options=list(range(0, 11)),
+                        key=key,
+                    )
+
 def show_statistics(groups, threshold):
     st.header("分析結果")
     
     for group in groups:
-        mean = Statistics.mean(group)
-        var = Statistics.var(group)
-        hit = Statistics.hit_rate(group, threshold)
+        scores = Statistics.scores(group)
+        mean = Statistics.mean(scores)
+        var = Statistics.var(scores)
+        hit = Statistics.hit_rate(scores, threshold)
 
         st.subheader(group.name)
 
@@ -43,11 +64,12 @@ def show_recommendation(groups, budget, threshold):
     rows = []
     
     for group, count in recommendation.items():
+        scores = Statistics.scores(group)
         rows.append({
             "グループ": [group.name],
-        "平均": [f"{Statistics.mean(group):.2f}"],
-            "分散": [f"{Statistics.var(group):.2f}"],
-            "当たり率": [f"{Statistics.hit_rate(group, threshold):.1%}"],
+            "平均": [f"{Statistics.mean(scores):.2f}"],
+            "分散": [f"{Statistics.var(scores):.2f}"],
+            "当たり率": [f"{Statistics.hit_rate(scores, threshold):.1%}"],
             "おすすめ購入数": [count]
         })
     
