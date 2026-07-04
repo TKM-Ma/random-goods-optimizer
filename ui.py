@@ -24,11 +24,16 @@ def show_sidebar():
 def show_input():
     groups = st.session_state.groups
     for group in groups:
-        count = sum(item.score == 0 for item in group.items)
-        title = group.name
+        count = sum(
+            st.session_state.get(f"{group.name}_{item.name}", item.score) == 0
+            for item in group.items
+        )
         if count > 0:
-            title += f"(未入力){count}人"
-        with st.expander(title):
+            st.caption(f"⚠ 未入力: {count}人")
+        else:
+            st.caption("✅ 入力完了")
+            
+        with st.expander(group.name):
             with st.container(height=450):
                 for item in group.items:
                     key=f"{group.name}_{item.name}"

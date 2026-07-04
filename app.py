@@ -30,8 +30,9 @@ uploaded = st.file_uploader(
     "評価ファイル",
     type="json",
 )
-if uploaded is not None:
-    apply_score(uploaded)
+if st.button("ファイルを読み込む"):
+    if uploaded is not None:
+        apply_score(uploaded)
 
 show_input()
 
