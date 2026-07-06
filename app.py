@@ -44,7 +44,6 @@ if selected != "選択してください":
         st.session_state.groups = load_template(path)
     groups = st.session_state.groups
 
-    budget, threshold = show_sidebar()
 
     uploaded = st.file_uploader(
         "評価ファイル",
@@ -56,6 +55,8 @@ if selected != "選択してください":
 
     show_input()
 
+    budget, threshold = show_sidebar()
+    
     json_data = groups_to_json(groups)
 
     st.download_button(

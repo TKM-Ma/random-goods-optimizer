@@ -5,19 +5,18 @@ from analysis.statistics import Statistics
 from analysis.optimizer import Optimizer
 
 def show_sidebar():
-    with st.sidebar:
-        budget = st.number_input(
-            "購入予定数",
-            min_value=1,
-            value=10
-        )
-        
-        threshold = st.slider(
-            "当たり判定",
-            min_value=1,
-            max_value=10,
-            value=8
-        )
+    budget = st.number_input(
+        "購入予定数",
+        min_value=1,
+        value=10
+    )
+    
+    threshold = st.slider(
+        "当たり判定",
+        min_value=1,
+        max_value=10,
+        value=8
+    )
     
     return budget, threshold
 
@@ -93,23 +92,11 @@ def show_description():
     st.write("複数のグループに分かれたランダムグッズの購入計画をサポートするツールです。")
     st.write("どのグループを何個購入すれば、ほしいキャラクターを効率よく狙えるかを入力した評価値をもとに計算します")
     
-    st.subheader("使い方")
-
-    st.subheader("➀作品を選択")
-    st.write("最初に対象となる作品・商品を選択してください")
-    
-    st.subheader("➁キャラクターを評価")
+    st.subheader("キャラクターを評価")
     st.write("各キャラクターについて、1~10で評価してください")
     st.write("評価の目安")
     st.write("・10:最推しまたは超当たり。最優先で欲しい  \n・8~9:当たり。できれば欲しい  \n・5～7:普通。当たれば嬉しい  \n・2～4:あまり必要ではない  \n・1:不要  \n・0:未評価")
     
-    st.subheader("➂予算・条件を入力")
-    st.write("購入予定総個数や当たり率（どこから当たりか）を設定してください")
-
-    st.subheader("➃おすすめを計算")
-    st.write("入力内容をもとに、おすすめの購入数を表示します")
     st.subheader("評価データの保存")
     st.write("入力した評価はJSONファイルとして保存できます")
     st.write("次回は保存したファイルを読み込むことで、前回の評価をそのまま利用できます")
-    st.subheader("注意事項")
-    st.write("・評価が未入力（0）のキャラクターがある場合は計算できません。  \n・このツールは入力した評価をもとに購入案を提案するものであり、実際の抽選結果を保証するものではありません。")
