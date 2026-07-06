@@ -1,5 +1,4 @@
 import streamlit as st
-import pandas as pd
 import os
 
 from dataio.loader import load_all_groups, load_template, apply_score

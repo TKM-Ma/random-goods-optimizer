@@ -1,5 +1,4 @@
-from models import group
-from analysis.statistics import Statistics
+from .statistics import Statistics
 
 class Optimizer:
     LAMBDA = 0.1
