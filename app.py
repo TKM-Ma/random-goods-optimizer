@@ -14,7 +14,7 @@ from ui import (
     show_description,
 )
 
-title = "ウマ娘 ランダムグッズ購入数計算ツール"
+title = "ウマ娘  ランダムグッズ購入数計算ツール"
 st.set_page_config(
     page_title=title,
     layout="wide"
