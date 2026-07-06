@@ -2,7 +2,7 @@ from .statistics import Statistics
 
 class Optimizer:
     LAMBDA = 0.1
-    ALPHA = 0.1
+    ALPHA = 0.05
     
     @staticmethod
     def recommend(groups, budget):
@@ -24,7 +24,7 @@ class Optimizer:
         scores = Statistics.scores(group)
         mean = Statistics.mean(scores)
         var = Statistics.var(scores)
-        score = mean - Optimizer.LAMBDA * var + 5 * Statistics.hit_rate(scores, 8) + 3 * Statistics.hit_rate(scores, 10)
+        score = mean - Optimizer.LAMBDA * var + 7 * Statistics.hit_rate(scores, 8) + 3 * Statistics.hit_rate(scores, 10)
 
         if recommend != None:
             score /= 1 + Optimizer.ALPHA * recommend[group]
