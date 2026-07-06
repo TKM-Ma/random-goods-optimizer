@@ -13,12 +13,13 @@ from ui import (
     show_recommendation
 )
 
+title = "ウマ娘　ランダムグッズ購入数計算ツール"
 st.set_page_config(
-    page_title="ランダム購入支援ツール",
+    page_title=title,
     layout="wide"
 )
 
-st.title("ランダム購入支援ツール")
+st.title(title)
 
 if "groups" not in st.session_state:
     st.session_state.groups = load_template("templates/umamusume_realCapsuleToy/real_capsule_toy.json")

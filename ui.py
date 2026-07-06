@@ -60,7 +60,7 @@ def show_statistics(groups, threshold):
         c1, c2, c3 = st.columns(3)
 
         c1.metric("平均", f"{mean:.2f}")
-        c2.metric("分散", f"{var:.2f}")
+        c2.metric("分散（リスク）", f"{var:.2f}")
         c3.metric("当たり率", f"{hit:.1%}")
 
 def show_recommendation(groups, budget, threshold):
@@ -73,9 +73,9 @@ def show_recommendation(groups, budget, threshold):
         rows.append({
             "グループ": [group.name],
             "平均": [f"{Statistics.mean(scores):.2f}"],
-            "分散": [f"{Statistics.var(scores):.2f}"],
+            "分散（リスク）": [f"{Statistics.var(scores):.2f}"],
             "当たり率": [f"{Statistics.hit_rate(scores, threshold):.1%}"],
-            "おすすめ購入数": [count]
+            "おすすめ購入数": [f"{count}個"]
         })
     
     df = pd.DataFrame(rows)
