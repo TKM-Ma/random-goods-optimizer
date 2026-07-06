@@ -21,7 +21,7 @@ st.set_page_config(
 st.title("ランダム購入支援ツール")
 
 if "groups" not in st.session_state:
-    st.session_state.groups = load_template("templates/real_capsule_toy.json")
+    st.session_state.groups = load_template("templates/umamusume_realCapsuleToy/real_capsule_toy.json")
 groups = st.session_state.groups
 
 budget, threshold = show_sidebar()
