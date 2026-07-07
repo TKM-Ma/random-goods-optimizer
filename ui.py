@@ -6,13 +6,13 @@ from analysis.optimizer import Optimizer
 
 def show_sidebar():
     budget = st.number_input(
-        "購入予定数",
+        "購入予定総数",
         min_value=1,
         value=10
     )
     
     threshold = st.slider(
-        "当たり判定",
+        "当たり判定（どこから当たりか）",
         min_value=1,
         max_value=10,
         value=8
